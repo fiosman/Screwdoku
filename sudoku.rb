@@ -50,7 +50,6 @@ class SudokuGame
     board.render
     pos = get_pos
     val = get_val
-    #debugger
     board[pos] = val
   end
 
