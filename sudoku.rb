@@ -41,6 +41,15 @@ class SudokuGame
     pos
   end
 
+
+  def parse_pos(pos)
+    pos.split(",").map { |coordinate| Integer(coordinate) }
+  end
+
+  def parse_val(val)
+    Integer(val)
+  end
+
   def get_val
     val = nil
     until val && valid_val?(val)
