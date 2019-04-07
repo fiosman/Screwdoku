@@ -15,50 +15,52 @@ class SudokuGame
   end
 
   def retrieve_pos_from_ui
-    p = nil
-    until p && legal_illegibility_of_p?(p)
+    pos = nil
+    until pos && legal_illegibility_of_pos?(pos)
       puts "Please enter a position on the board (e.g., '3,4')"
       print "> "
 
       begin
-        p = parse_inanity(gets.chomp)
+        pos = parse_pos(gets.chomp)
       rescue
         puts "Invalid position entered (did you use a comma?)"
         puts ""
 
-        p = nil
+        pos = nil
       end
     end
-    p
+    pos
   end
 
   def retrieve_value_from_ui
-    v = nil
-    until v && legal_illegibility_of_v?(v)
+    val = nil
+    until val && legal_illegibility_of_val?(val)
       puts "Please enter a value between 1 and 9 (0 to clear the tile)"
       print "> "
-      v = parse_insanity(gets.chomp)
+      val = parse_val(gets.chomp)
     end
-    v
+    val
   end
 
-  def parse_inanity(string)
+  def parse_pos(string)
     string.split(",").map { |char| Integer(char) }
   end
 
-  def parse_insanity(string)
+  def parse_val(string)
     Integer(string)
   end
 
   def process_parameters
+    board.render
     pos_to_val(retrieve_pos_from_ui, retrieve_value_from_ui)
   end
 
-  def pos_to_val(p, v)
-    board[p] = v
+  def pos_to_val(pos, val)
+    board[pos] = val
   end
 
   def commence_proceedings
+    #board.render
     process_parameters until board_process_terminates?
     puts "Congratulations, you win!"
   end
@@ -67,13 +69,13 @@ class SudokuGame
     board.terminate?
   end
 
-  def legal_illegibility_of_p?(pos)
+  def legal_illegibility_of_pos?(pos)
     pos.is_a?(Array) &&
       pos.length == 2 &&
       pos.all? { |x| x.between?(0, board.size - 1) }
   end
 
-  def legal_illegibility_of_v?(val)
+  def legal_illegibility_of_val?(val)
     val.is_a?(Integer) &&
       val.between?(0, 9)
   end
