@@ -1,5 +1,7 @@
 require_relative "tile"
 
+require 'byebug'
+
 class Board
   def self.empty_grid
     Array.new(9) do
@@ -8,6 +10,7 @@ class Board
   end
 
   def self.from_file(filename)
+    debugger
     rows = File.readlines(filename).map(&:chomp)
     tiles = rows.map do |row|
       nums = row.split("").map { |char| Integer(char) }
@@ -22,14 +25,16 @@ class Board
   end
 
   def [](pos)
+    #debugger
     x, y = pos
     grid[x][y]
   end
 
   def []=(pos, value)
+    #debugger
     x, y = pos
-    tile = grid[x][y]
-    tile.value = value
+    tile = grid[x][y] #somehow returning nil..
+    tile.value = value #therefore can't do .value on a nil object => error
   end
 
   def columns
